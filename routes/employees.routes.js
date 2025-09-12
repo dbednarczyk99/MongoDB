@@ -42,7 +42,9 @@ router.get('/employees/:id', (req, res) => {
 
 router.post('/employees', (req, res) => {
   req.db.collection('employees')
-    .insertOne({ name: req.body.name })
+    .insertOne({ firstName: req.body.firstName, 
+                 lastName: req.body.lastName,
+                 department: req.body.department })
     .then(() => {
       res.json({ message: 'OK' });
     })
@@ -53,7 +55,10 @@ router.post('/employees', (req, res) => {
 
 router.put('/employees/:id', (req, res) => {
   req.db.collection('employees')
-    .updateOne({ _id: ObjectId(req.params.id) }, { $set: {name: req.body.name }})
+    .updateOne({ _id: ObjectId(req.params.id) }, 
+    { $set: {firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      department: req.body.department} })
     .then(() => {
       res.json({ message: 'OK' });
     })
