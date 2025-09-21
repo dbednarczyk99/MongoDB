@@ -5,6 +5,6 @@ const employeesSchema = new mongoose.Schema({
     lastName: { type: String, required: true },
     department: { type: String, required: true },
     salary: { type: Number, required: false },
-});
+}, { versionKey: false });
 
-module.exports = mongoose.model('Employeees', employeesSchema);
+module.exports = mongoose.model('Employees', employeesSchema);
