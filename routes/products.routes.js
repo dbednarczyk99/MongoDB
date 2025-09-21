@@ -18,9 +18,9 @@ router.get('/products/random', async (req, res) => {
   try {
     const count = await Products.countDocuments();
     const rand = Math.floor(Math.random() * count);
-    const item = await Products.findOne().skip(rand);
-    if(!item) res.status(404).json({ message: 'Not found' });
-    else res.json(dep);
+    const product = await Products.findOne().skip(rand);
+    if(!product) res.status(404).json({ message: 'Not found' });
+    else res.json(product);
   }
   catch(err) {
     res.status(500).json({ message: err });
@@ -29,9 +29,9 @@ router.get('/products/random', async (req, res) => {
 
 router.get('/products/:id', async (req, res) => {
   try {
-    const dep = await Products.findById(req.params.id);
-    if(!dep) res.status(404).json({ message: 'Not found' });
-    else res.json(dep);
+    const product = await Products.findById(req.params.id);
+    if(!product) res.status(404).json({ message: 'Not found' });
+    else res.json(product);
   }
   catch(err) {
     res.status(500).json({ message: err });
@@ -40,7 +40,6 @@ router.get('/products/:id', async (req, res) => {
 
 router.post('/products', async (req, res) => {
   try {
-    const { name } = req.body;
     const newProduct = new Products({ name: req.body.name, client: req.body.client });
     await newProduct.save();
     res.json({ message: 'OK' });
@@ -51,8 +50,8 @@ router.post('/products', async (req, res) => {
 
 router.put('/products/:id', async (req, res) => {
   try {
-    const dep = await Products.findById(req.params.id);
-    if(dep) {
+    const product = await Products.findById(req.params.id);
+    if(product) {
       await Products.updateOne({ _id: req.params.id }, { $set: { name: req.body.name, client: req.body.client }});
       res.json({ message: 'OK' });
     }
@@ -65,8 +64,8 @@ router.put('/products/:id', async (req, res) => {
 
 router.delete('/products/:id', async (req, res) => {
   try {
-    const dep = await Department.findById(req.params.id);
-    if(dep) {
+    const product = await Products.findById(req.params.id);
+    if(product) {
       await Department.deleteOne({ _id: req.params.id });
       res.json({ message: 'OK' });
     }
